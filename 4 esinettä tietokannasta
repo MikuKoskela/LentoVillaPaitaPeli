@@ -1,0 +1,36 @@
+import mysql.connector
+import random
+yhteys = mysql.connector.connect(
+         host='127.0.0.1',
+         port= 3306,
+         database='flight_game',
+         user='root',
+         password='S4l4_sana',
+         autocommit=True)
+
+def objects():
+    list = set()
+
+    sql = "select name from objects"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    response = (kursori.fetchall())
+    index_for_random = len(response)-1
+
+    while len(list) < 4:
+        luku1 = str(random.randint(0, index_for_random))
+        luku1 = int(luku1)
+        sql = "select name from objects"
+        kursori = yhteys.cursor()
+        kursori.execute(sql)
+        response = (kursori.fetchall())
+
+        i = 0
+        for i in range(5):
+            item = response[luku1]
+            if item not in list:
+                list.add(item)
+            i = i+1
+    return list
+obj = str(objects())
+print(obj)
